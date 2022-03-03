@@ -1,2 +1,8 @@
+require('dotenv').config()
 
-console.log("Hola mundo");
+const Server = require('./models/server');
+
+const server = new Server;
+
+server.listen();
+
