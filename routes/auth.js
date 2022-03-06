@@ -3,10 +3,10 @@ const { check } = require('express-validator');
 
 const { createUser, login, renewToken } = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { jwtValidator } = require('../middlewares/jwt-validator');
 
 const router = Router();
 
-// Se pasa la referencia del controller correspondiente en cada petición, en este caso crearUsuario
 router.post('/', [
     check('name', 'El nombre es obligatorio').notEmpty(),
     check('email', 'El correo es obligatorio').isEmail(),
@@ -21,6 +21,8 @@ router.post('/login', [
     validarCampos
 ], login );
 
-router.get( '/renew', renewToken);
+router.get( '/renew', [
+    jwtValidator
+], renewToken);
 
 module.exports = router;

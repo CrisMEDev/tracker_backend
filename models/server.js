@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 
+const { dbConnection } = require('../database/db-config');
+
 class Server {
 
     constructor(){
@@ -11,11 +13,17 @@ class Server {
             auth:           '/trackerapi/auth',
         }
 
+        this.databaseConnection();
+
         // Inicia los middlewares
         this.middlewares();
 
         // Rutas de la aplicación (endpoints)
         this.routes();
+    }
+
+    async databaseConnection(){
+        await dbConnection();
     }
     
     middlewares(){
