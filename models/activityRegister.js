@@ -12,7 +12,7 @@ const ActivityRegisterSchema = Schema({
     },
 
     daysLabel: {
-        values: [Number],
+        type: [Number],
     },
 
     creationDate: {
@@ -30,7 +30,7 @@ const ActivityRegisterSchema = Schema({
         default: true
     },
 
-    activiy: {
+    activity: {
         type: Schema.Types.ObjectId,
         ref: 'Activity',      // Referencia al schema usuario
         required: true
@@ -45,7 +45,7 @@ const ActivityRegisterSchema = Schema({
 
 ActivityRegisterSchema.methods.toJSON = function(){
 
-    const { __v, _id, ...register } = this.toObject();
+    const { __v, _id, status, ...register } = this.toObject();
 
     register.register_id = _id;
     

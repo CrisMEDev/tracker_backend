@@ -66,7 +66,7 @@ const updateActivity = async( req = request, res = response ) =>{
             title,
             labels,
             user: usuario._id,
-            lastUpdate: Date.now()
+            creationDate: activity.creationDate
         }
 
         const updatedActivity = await Activity.findByIdAndUpdate( activityId, newActivity, { new: true } )
