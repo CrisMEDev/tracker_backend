@@ -44,7 +44,7 @@ const ActivitySchema = Schema({
 
 ActivitySchema.methods.toJSON = function(){
 
-    const { __v, _id, ...activiy } = this.toObject();
+    const { __v, _id, status, ...activiy } = this.toObject();
 
     activiy.activity_id = _id;
     

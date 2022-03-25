@@ -43,7 +43,7 @@ const ActivityRegisterSchema = Schema({
     }
 });
 
-ActivityRegister.methods.toJSON = function(){
+ActivityRegisterSchema.methods.toJSON = function(){
 
     const { __v, _id, ...register } = this.toObject();
 

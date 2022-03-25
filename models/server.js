@@ -11,6 +11,7 @@ class Server {
 
         this.paths = {
             auth:           '/trackerapi/auth',
+            activity:       '/trackerapi/activity'
         }
 
         this.databaseConnection();
@@ -42,6 +43,7 @@ class Server {
     routes(){
 
         this.app.use( this.paths.auth,          require('../routes/auth') );
+        this.app.use( this.paths.activity,      require('../routes/activity') );
         
     }
 
