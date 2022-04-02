@@ -1,6 +1,6 @@
 const { response, request } = require('express');
 
-const { Activity } = require('../models/index');
+const { Activity, ActivityRegister } = require('../models/index');
 
 const addActivity = async( req = request, res = response ) => {
     const { title, labels } = req.body;
@@ -116,13 +116,18 @@ const deleteActivity = async( req = request, res = response ) => {
             });
         }
 
+        // Se borran los registros relacionados a la actividad
+        const registers = await ActivityRegister.updateMany({ activity: activityId }, { status: false }, { new: true });
+        console.log(registers);
+
         // Borrar activity
         const activityDeleted = await Activity.findByIdAndUpdate( activityId, { status: false }, { new: true } );
 
         res.status(200).json({
             ok: true,
             usuario,
-            activity: activityDeleted
+            activity: activityDeleted,
+            msg: `Se han borrado todos los registros relacionados a la actividad -${ activity.title }-`
         });
         
     } catch (error) {
