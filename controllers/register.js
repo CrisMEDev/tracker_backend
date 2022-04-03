@@ -6,6 +6,63 @@ const { daysInMonth } = require('../helpers/days-number');
 const { modifyLabels } = require('../helpers/modify-labels');
 const { arrayOfDays } = require('../helpers/fill-month-array');
 
+
+const getRegisterByDate = async( req = request, res = response ) => {
+
+    const usuario = req.usuario;
+    const activityId = req.params.id;
+    const { month, year } = req.params;
+
+    try {
+        
+        // Verificar si existe la actividad en DB
+        const activity = await Activity.findById( activityId );
+        if ( !activity ){
+            return res.status(404).json({
+                ok: false,
+                msg: 'La actividad no existe'
+            });
+        }
+
+        // Verificar el estado de la actividad
+        if ( !activity.status ){
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe el registro en la base de datos'
+            });
+        }
+
+        // Verificar que la actividad pertenece al usuario en cuestion
+        if ( activity.user.toString() !== usuario._id.toString() ){
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene permisos para editar esta actividad'
+            });
+        }
+
+        // Verificar si ya existe un registro en la DB para la actividad con el año y mes dados
+        const register = await ActivityRegister.findOne({ activity: activityId, year, month, status: true });
+        if ( !register ){
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe un registro en la fecha actual'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            register
+        });
+        
+    } catch (error) {
+        console.log( error );
+        return res.status(500).json({
+            msg: 'Algo salió mal, contacte a su administrador'
+        });
+    }
+    
+}
+
 const createRegister = async( req = request, res = response ) => {
 
     const usuario = req.usuario;
@@ -227,6 +284,7 @@ const deleteRegister = async( req = request, res = response ) => {
 }
 
 module.exports = {
+    getRegisterByDate,
     createRegister,
     updateRegister,
     deleteRegister
