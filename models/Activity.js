@@ -20,6 +20,10 @@ const ActivitySchema = Schema({
         }
     },
 
+    description: {
+        type: String
+    },
+
     creationDate: {
         type: Date,
         default: Date.now

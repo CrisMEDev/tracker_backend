@@ -3,7 +3,7 @@ const { response, request } = require('express');
 const { Activity, ActivityRegister } = require('../models/index');
 
 const addActivity = async( req = request, res = response ) => {
-    const { title, labels } = req.body;
+    const { title, labels, description } = req.body;
     const usuario = req.usuario;
 
     try {
@@ -12,6 +12,7 @@ const addActivity = async( req = request, res = response ) => {
         activity.user = usuario._id;
         activity.title = title;
         activity.labels = labels;
+        activity.description = description;
 
         const activitySave = await activity.save();
         
@@ -30,7 +31,7 @@ const addActivity = async( req = request, res = response ) => {
 }
 
 const updateActivity = async( req = request, res = response ) =>{
-    const { title, labels } = req.body;
+    const { title, labels, description } = req.body;
     const usuario = req.usuario;
     const activityId = req.params.id;
 
@@ -65,6 +66,7 @@ const updateActivity = async( req = request, res = response ) =>{
         const newActivity = {
             title,
             labels,
+            description,
             user: usuario._id,
             creationDate: activity.creationDate
         }

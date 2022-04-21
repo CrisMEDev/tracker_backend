@@ -23,6 +23,8 @@ router.post('/', [
     check('labels', 'La información debe ser un objeto').isObject(),
     check('labels', 'Las etiquetas son obligatorias').notEmpty(),
     check('labels', 'Solo debe haber 3 etiquetas en el objeto: min, ok, ideal').custom( isLabelCorrect ),
+    check('description', 'La descripción debe ser válida').isString(),
+    check('description', 'La descripción debe ser válida').isLength({ min: 10 }),
     validarCampos,
 ], addActivity);
 
@@ -33,6 +35,7 @@ router.post('/update/:id', [
     check('labels', 'La información debe ser un objeto').isObject(),
     check('labels', 'Las etiquetas son obligatorias').notEmpty(),
     check('labels', 'Solo debe haber 3 etiquetas en el objeto: min, ok, ideal').custom( isLabelCorrect ),
+    check('description', 'La descripción es obligatoria'),
     validarCampos,
 ], updateActivity);
 
